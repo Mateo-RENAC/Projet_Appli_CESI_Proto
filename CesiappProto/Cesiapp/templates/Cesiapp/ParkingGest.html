@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des places de parking</title>
+    <style>
+        .parking-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .place-control {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .place-control form {
+            display: inline;
+        }
+        .place-control button {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    {% for type_place in type_places %}
+        <div class="parking-info">
+            <div class="parking-name">
+                <strong>{{ type_place.fk_id_parking.name }}</strong>
+            </div>
+            <div class="place-type">
+                <strong>{{ type_place.name_Type }}</strong>
+            </div>
+            <div class="place-control">
+                <form method="post" action="{% url 'update_places' type_place.id 'decrement' %}">
+                    {% csrf_token %}
+                    <button type="submit">-</button>
+                </form>
+                <span class="place-count">{{ type_place.t_nb_places }}</span>
+                <form method="post" action="{% url 'update_places' type_place.id 'increment' %}">
+                    {% csrf_token %}
+                    <button type="submit">+</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</body>
+</html>
