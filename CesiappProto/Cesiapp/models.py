@@ -1,5 +1,4 @@
 from django.db import models
-#Modification juste pour créer la branche Develop dans GitHub aussi
 
 class Compte(models.Model):
     """
@@ -53,6 +52,7 @@ class Type_Place(models.Model):
     TYPE_PLACE_CHOICES = [
         ('Electrique', 'Electrique'),
         ('Thermique', 'Thermique'),
+        ('Covoiture', 'Covoiture'),
     ]
 
     id = models.AutoField(primary_key=True)
@@ -68,9 +68,10 @@ class Type_Place(models.Model):
         return f"{self.name_Type} ({self.t_nb_places} places, Parking: {self.fk_id_parking.name})"
 
 
-from django.db import models
-
 class ProduitCrous(models.Model):
+    """
+    Différents produits du Crous
+    """
     id = models.AutoField(primary_key=True)
     produit_name = models.CharField(max_length=15)
     price = models.FloatField(default=0.0)
@@ -85,6 +86,9 @@ class ProduitCrous(models.Model):
 
 
 class CafeteriaCrous(models.Model):
+    """
+    Dedans il y aura les Menus du Crous (plusieurs produits)
+    """
     id = models.AutoField(primary_key=True)
     menu = models.ManyToManyField(ProduitCrous)
 
@@ -97,6 +101,9 @@ class CafeteriaCrous(models.Model):
 
 
 class FoodTruck(models.Model):
+    """
+    Différents Food Truck avec leurs Menus et leurs contacts
+    """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
     menu = models.TextField(max_length=500)
@@ -111,6 +118,9 @@ class FoodTruck(models.Model):
 
 
 class Menu(models.Model):
+    """
+    Le menu Crous et Food Truck du jours
+    """
     id = models.AutoField(primary_key=True)
     cafeteria_crous = models.ForeignKey(CafeteriaCrous, on_delete=models.CASCADE, related_name='menus')
     food_truck = models.ForeignKey(FoodTruck, on_delete=models.CASCADE, related_name='menus')
