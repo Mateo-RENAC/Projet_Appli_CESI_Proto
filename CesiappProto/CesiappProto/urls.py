@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Cesiapp.views import type_place_list, update_places
+from Cesiapp.views import index, type_place_list, update_places
 
 urlpatterns = [
+    path('', index),
     path('admin/', admin.site.urls),
-    path('', type_place_list, name='type_place_list'),
+    path('ParkingPlace/', type_place_list, name='type_place_list'),
     path('update_places/<int:pk>/<str:action>/', update_places, name='update_places'),
-
 ]
