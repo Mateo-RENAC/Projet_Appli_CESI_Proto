@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,23 +23,65 @@
     </style>
 </head>
 <body>
+    {% load static %}
     <h1>Choisissez une option</h1>
     <button id="valideBtn">Valide</button>
     <button id="handicapBtn">Situation d'Handicap</button>
+    <button id="2DBtn">2D</button>
+    <button id="3DBtn">3D</button>
     <div>
-        <img id="valideImg" src="" alt="Image Valide">
-        <img id="handicapImg" src="" alt="Image Handicap">
+        <img id="valide2DImg" src="{% static 'Cesiapp/Ressources/Plan_CESI_2D.png' %}" alt="Plan 2D Valide">
+        <img id="handicap2DImg" src="{% static 'Cesiapp/Ressources/Plan_CESI_2D_Handi.png' %}" alt="Plan 2D Handicap">
+        <img id="valide3DImg" src="{% static 'Cesiapp/Ressources/Cesi_3D.png' %}" alt="Plan 3D Valide">
+        <img id="handicap3DImg" src="{% static 'Cesiapp/Ressources/CESI_3D_Handi.png' %}" alt="Plan 3D Handicap">
     </div>
     <script>
+        let selectedMobility = '';
+
         document.getElementById('valideBtn').addEventListener('click', function() {
-            document.getElementById('valideImg').style.display = 'block';
-            document.getElementById('handicapImg').style.display = 'none';
+            selectedMobility = 'valide';
+            showImage();
         });
 
         document.getElementById('handicapBtn').addEventListener('click', function() {
-            document.getElementById('handicapImg').style.display = 'block';
-            document.getElementById('valideImg').style.display = 'none';
+            selectedMobility = 'handicap';
+            showImage();
         });
+
+        document.getElementById('2DBtn').addEventListener('click', function() {
+            showImage('2D');
+        });
+
+        document.getElementById('3DBtn').addEventListener('click', function() {
+            showImage('3D');
+        });
+
+        function showImage(view = '') {
+            const images = {
+                valide2D: document.getElementById('valide2DImg'),
+                handicap2D: document.getElementById('handicap2DImg'),
+                valide3D: document.getElementById('valide3DImg'),
+                handicap3D: document.getElementById('handicap3DImg')
+            };
+
+            for (let img in images) {
+                images[img].style.display = 'none';
+            }
+
+            if (selectedMobility === 'valide' && view === '2D') {
+                images.valide2D.style.display = 'block';
+            } else if (selectedMobility === 'handicap' && view === '2D') {
+                images.handicap2D.style.display = 'block';
+            } else if (selectedMobility === 'valide' && view === '3D') {
+                images.valide3D.style.display = 'block';
+            } else if (selectedMobility === 'handicap' && view === '3D') {
+                images.handicap3D.style.display = 'block';
+            } else if (selectedMobility === 'valide') {
+                images.valide2D.style.display = 'block';
+            } else if (selectedMobility === 'handicap') {
+                images.handicap2D.style.display = 'block';
+            }
+        }
     </script>
 </body>
 </html>
