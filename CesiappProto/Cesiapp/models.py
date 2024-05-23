@@ -1,4 +1,5 @@
 from django.db import models
+#Modification juste pour créer la branche Develop dans GitHub aussi
 
 class Compte(models.Model):
     """
