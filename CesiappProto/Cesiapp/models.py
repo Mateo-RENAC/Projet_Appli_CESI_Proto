@@ -68,6 +68,65 @@ class Type_Place(models.Model):
         return f"{self.name_Type} ({self.t_nb_places} places, Parking: {self.fk_id_parking.name})"
 
 
+from django.db import models
+
+class ProduitCrous(models.Model):
+    id = models.AutoField(primary_key=True)
+    produit_name = models.CharField(max_length=15)
+    price = models.FloatField(default=0.0)
+    in_stock = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = 'Produits Crous'
+        verbose_name = 'Produit Crous'
+
+    def __str__(self):
+        return f"{self.produit_name} ({self.price}€) - Disponible : {'Oui' if self.in_stock else 'Non'}"
+
+
+class CafeteriaCrous(models.Model):
+    id = models.AutoField(primary_key=True)
+    menu = models.ManyToManyField(ProduitCrous)
+
+    class Meta:
+        verbose_name_plural = 'Cafeterias Crous'
+        verbose_name = 'Cafeteria Crous'
+
+    def __str__(self):
+        return ', '.join([str(produit) for produit in self.menu.all()])
+
+
+class FoodTruck(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+    menu = models.TextField(max_length=500)
+    contact = models.CharField(max_length=10)
+
+    class Meta:
+        verbose_name_plural = 'Food Trucks'
+        verbose_name = 'Food Truck'
+
+    def __str__(self):
+        return f"{self.name} ({self.menu} - {self.contact})"
+
+
+class Menu(models.Model):
+    id = models.AutoField(primary_key=True)
+    cafeteria_crous = models.ForeignKey(CafeteriaCrous, on_delete=models.CASCADE, related_name='menus')
+    food_truck = models.ForeignKey(FoodTruck, on_delete=models.CASCADE, related_name='menus')
+    date = models.DateField(auto_now_add=True)
+    food_la = models.BooleanField(default=True)
+    crous_la = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = 'Menus'
+        verbose_name = 'Menu'
+
+    def __str__(self):
+        return f"Menu du {self.date}"
+
+
+
 
 
 #Import for signals

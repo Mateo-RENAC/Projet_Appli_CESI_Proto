@@ -15,3 +15,7 @@ def update_places(request, pk, action):
         type_place.t_nb_places -= 1
     type_place.save()
     return redirect('type_place_list')
+
+
+def index(request):
+    return render(request, 'Cesiapp/index.html')
